@@ -8,7 +8,7 @@ import locale
 import zipfile
 import sys 
 import os
-#locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 
 
 def distance_matrix(x0, y0, x1, y1):
@@ -19,6 +19,7 @@ def distance_matrix(x0, y0, x1, y1):
     d1 = np.subtract.outer(obs[:,1], interp[:,1])
 
     return np.hypot(d0, d1)
+    
 
 def simple_idw(x, y, z, xi, yi):
     dist = distance_matrix(x,y, xi,yi)
@@ -29,12 +30,25 @@ def simple_idw(x, y, z, xi, yi):
 
     zi = np.dot(weights.T, z)
     return zi
+    
+
+def crear_csv_llenado(df_valor, lista_files,tiempo,df_fechas):
+    X = df_valor.values
+    imputer = KNNImputer(n_neighbors=2, weights="distance")
+    salida = imputer.fit_transform(X)
+    salida = pd.DataFrame(salida)
+    
+    for i in np.arange(0,len(lista_files),1):
+        salida_unica = pd.DataFrame(salida[i]).rename({i:'Valor'},axis = 1)
+        salida_unica.index = tiempo.index
+        salida_unica = salida_unica.loc[df_fechas['FECHA_INICIAL'][i]:df_fechas['FECHA_FINAL'][i]]
+        salida_unica.to_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i])
 
 
 def llenado(path_pre, lista_files):
     
-    Path('PRE_SALIDAS/DATA_LLENADO/').mkdir(parents=True, exist_ok=True)
-    
+    Path('../PRE_SALIDAS/DATA_LLENADO/').mkdir(parents=True, exist_ok=True)   #Crear carpeta de salida de datos llenados
+
     # dia completo
     año_ini = '1995'
     mes_ini = '01'
@@ -51,7 +65,9 @@ def llenado(path_pre, lista_files):
     
     fecha_inicio = []
     fecha_fin    = []
-    """Llamar datos csv por estación"""
+    
+    '''Llamar datos csv por estación'''
+    
     for i in np.arange(0,len(lista_files),1):
         data = pd.read_csv(path_pre + lista_files[i])
         data = data[['Fecha','Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
@@ -63,7 +79,6 @@ def llenado(path_pre, lista_files):
     df_fechas = pd.DataFrame({'FECHA_INICIAL':fecha_inicio, 'FECHA_FINAL':fecha_fin})
     df_fechas['FECHA_INICIAL'] = año_ini + '-' + mes_ini +  '-' + dia_ini
     df_fechas['FECHA_FINAL']   = año_fin + '-' + mes_fin +  '-' + dia_fin
-    df_fechas
     
     
     df_valor     = tiempo.copy()
@@ -100,10 +115,6 @@ def llenado(path_pre, lista_files):
     
         df_longitude = df_latitude.bfill()
         df_longitude = df_latitude.ffill()  
-        
-    fechas_iterar = df_valor.index
-    
-    df_valor2 = df_valor.copy()
 
     fechas_iterar = df_valor.index
     suma = 0
@@ -130,16 +141,5 @@ def llenado(path_pre, lista_files):
                 yi = pd.DataFrame(df_latitude.loc[fechas_iterar[row]]).T[index_nan[col]].values
                 zi = simple_idw(x[0],y[0],z[0],xi,yi)
                 df_valor.loc[index_remplazar,index_nan[col]] = zi
-
-    X = df_valor.values
-    imputer = KNNImputer(n_neighbors=2, weights="distance")
-    salida = imputer.fit_transform(X)
-    salida = pd.DataFrame(salida)
-    
-    for i in np.arange(0,len(lista_files),1):
-        salida_unica = pd.DataFrame(salida[i]).rename({i:'Valor'},axis = 1)
-        salida_unica.index = tiempo.index
-        salida_unica = salida_unica.loc[df_fechas['FECHA_INICIAL'][i]:df_fechas['FECHA_FINAL'][i]]
-        salida_unica.to_csv(folder_input + 'PRE_SALIDAS/DATA_LLENADO/' + lista_files[i])
-
-    return df_valor
+                
+    crear_csv_llenado(df_valor,lista_files,tiempo,df_fechas)
