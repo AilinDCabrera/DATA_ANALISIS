@@ -31,7 +31,7 @@ def mm_global(dataframe):
     plt.grid(axis = 'y', zorder = -1)
     
 
-def mensual_multianual(lista_files, tipo):
+def mensual_multianual(lista_files, tipo, var):
     '''calcula la precipitacion mensual media multianual
         tipo: 'estaciones' - una grafica que incluye todas las estaciones por separado 
         tipo: 'global' - grafica e promedio de todas las estaciones
@@ -47,8 +47,11 @@ def mensual_multianual(lista_files, tipo):
     
     for i in np.arange(numi,numf,1):
         if i == numi:
-            data = pd.read_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
-            data = data.groupby(data.index.strftime('%Y-%m')).sum() #MAX
+            data = pd.read_csv(f'../{var}_SALIDAS/DATA_LLENADO/{lista_files[i]}'); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
+            if var == 'PRE':
+                data = data.groupby(data.index.strftime('%Y-%m')).sum()
+            elif var == 'TEM':
+                data = data.groupby(data.index.strftime('%Y-%m')).mean()
             data.index = pd.to_datetime(data.index)
             data = data.groupby(data.index.strftime('%b')).mean()
             data = data.rename(columns={'Valor': nombres_estaciones_plot[numi]})
@@ -61,8 +64,11 @@ def mensual_multianual(lista_files, tipo):
     
             dataframe = data
         else:
-            data = pd.read_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
-            data = data.groupby(data.index.strftime('%Y-%m')).sum()
+            data = pd.read_csv(f'../{var}_SALIDAS/DATA_LLENADO/{lista_files[i]}'); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
+            if var == 'PRE':
+                data = data.groupby(data.index.strftime('%Y-%m')).sum()
+            elif var == 'TEM':
+                data = data.groupby(data.index.strftime('%Y-%m')).mean()
             data.index = pd.to_datetime(data.index)
             data = data.groupby(data.index.strftime('%b')).mean()
             

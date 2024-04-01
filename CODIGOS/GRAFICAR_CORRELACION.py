@@ -3,23 +3,18 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-def cargar2(lista,num,nombres_estaciones_plot):
+def cargar2(lista,num,nombres_estaciones_plot,rango_tiempo,var):
 
-    año_ini = '1995'
-    mes_ini = '01'
-    dia_ini = '01'
+    tiempo_ini = rango_tiempo[0]
+    tiempo_fin  = rango_tiempo[1]
     
-    año_fin = '2023'
-    mes_fin = '06'
-    dia_fin = '30'
-    
-    data = pd.read_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista[num])
+    data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista[num]}')
     data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
-    data = data.loc[año_ini + '-' + mes_ini +  '-' + dia_ini: año_fin + '-' + mes_fin +  '-' + dia_fin]
+    data = data.loc[tiempo_ini:tiempo_fin]
     data.columns = [nombres_estaciones_plot[num]]
     return(data)
     
-def correlacion(lista_files):
+def correlacion(lista_files,rango_tiempo,var):
     numi = 0
     numf = len(lista_files)
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
@@ -27,9 +22,9 @@ def correlacion(lista_files):
     
     for i in np.arange(numi,numf,1):
         if i == numi:
-            dataframe = cargar2(lista_files,i,nombres_estaciones_plot)
+            dataframe = cargar2(lista_files,i,nombres_estaciones_plot,rango_tiempo,var)
         else:
-            data00 = cargar2(lista_files,i,nombres_estaciones_plot)
+            data00 = cargar2(lista_files,i,nombres_estaciones_plot,rango_tiempo,var)
             dataframe = pd.concat([dataframe,data00],axis=1)
     
     

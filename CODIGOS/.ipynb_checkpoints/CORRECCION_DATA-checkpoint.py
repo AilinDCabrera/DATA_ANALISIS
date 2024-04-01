@@ -1,25 +1,21 @@
 import numpy as np
 import pandas as pd
 
-'''Asignan nan a los valores anomalos para la fecha correspondiente, recrea los archivos de data completa'''
+'''Asigna nan a los valores anomalos para la fecha correspondiente, con esto recrea los archivos de data_completa'''
 
-def correccion(lista_files):
-    año_ini = '1995'
-    mes_ini = '01'
-    dia_ini = '01'
+def correccion(lista_files, rango_tiempo,var):
     
-    año_fin = '2023'
-    mes_fin = '06'
-    dia_fin = '30'
+    tiempo_ini = rango_tiempo[0]
+    tiempo_fin  = rango_tiempo[1]
     
-    dia_completo = [d.strftime('%Y-%m-%d') for d in pd.date_range(año_ini+ mes_ini + dia_ini, año_fin + mes_fin + dia_fin, freq='1D')]
+    dia_completo = [d.strftime('%Y-%m-%d') for d in pd.date_range(tiempo_ini, tiempo_fin, freq='1D')]
     tiempo = pd.DataFrame(dia_completo, columns = ['Fecha'])
     tiempo = tiempo.set_index('Fecha');tiempo.index = pd.to_datetime(tiempo.index)
     
 
     '''Asigna nan a los valores menores a 0 y mayores a 150'''
     for k in np.arange(0,len(lista_files),1):
-        data = pd.read_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista_files[k])
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[k]}')
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         nuevos_valores = []
         for i in np.arange(0,len(data),1):
@@ -36,9 +32,9 @@ def correccion(lista_files):
 
         '''Crea dataframes con fechas diarias del periodo a evaluar, de manera que hay registro de los días en los que no hay datos '''
         
-        data = data.loc['1995-01-01':'2023-06-30']
+        data = data.loc[tiempo_ini:tiempo_fin]
         salida = pd.concat([data, tiempo], axis=1)
-        salida.to_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista_files[k])
+        salida.to_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[k]}')
 
 
 

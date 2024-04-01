@@ -4,8 +4,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-''' '''
+
 def bxp_mes(lista_files):
+    ''' Grafica boxplots con datos mensuales comparando los datos llenados y los originales'''
     
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]
@@ -49,6 +50,8 @@ def bxp_mes(lista_files):
 
 
 def bxp_anio(lista_files):
+    ''' Grafica boxplots con datos anuales comparando los datos llenados y los originales'''
+    
     plt.style.use('default')
     dataframe_llenado = pd.DataFrame([])
     

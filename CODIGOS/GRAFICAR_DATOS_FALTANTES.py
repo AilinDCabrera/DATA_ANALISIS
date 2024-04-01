@@ -3,19 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def cargar(lista_files,num):
+def cargar(lista_files,num,rango_tiempo,var):
 
-    año_ini = '1995'
-    mes_ini = '01'
-    dia_ini = '01'
+    tiempo_ini = rango_tiempo[0]
+    tiempo_fin  = rango_tiempo[1]
     
-    año_fin = '2023'
-    mes_fin = '06'
-    dia_fin = '30'
-    
-    data = pd.read_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista_files[num])
+    data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[num]}')
     data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
-    data = data.loc[año_ini + '-' + mes_ini +  '-' + dia_ini: año_fin + '-' + mes_fin +  '-' + dia_fin]
+    data = data.loc[tiempo_ini:tiempo_fin]
     data.columns = ['s' + str(num)]
     return(data)
 
@@ -52,17 +47,15 @@ def lista_tamaño(valores):
     return(np.array(lista_tamaño))
 
 
-
-def complidado(num,lista_files):
-    data = cargar(lista_files,num)
+def compilado(num,lista_files, rango_tiempo,var):
+    data = cargar(lista_files,num,rango_tiempo,var)
     años,valores = listas(data,num)
     inten = lista_tamaño(valores)
     print(valores)
     print(np.round((np.array(valores).sum()/(365*len(años)))*100,2), '%', lista_files[num])
-    #print(valores,lista_files[num])
     return(años,inten)
 
-def datos_faltantes(lista_files):
+def datos_faltantes(lista_files,rango_tiempo,var):
     x    = []
     y    = []
     hue  = []
@@ -73,7 +66,7 @@ def datos_faltantes(lista_files):
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]
     
     for num in np.arange(numi,numf,1):
-        años,inten = complidado(num,lista_files)
+        años,inten = compilado(num,lista_files,rango_tiempo,var)
         s     = [nombres_estaciones_plot[num]]*len(años)
         x     = años + x
         y     = s + y
@@ -85,11 +78,9 @@ def datos_faltantes(lista_files):
         x1.append(ts.strftime('%Y'))
 
 
-
-    #plt.rcParams.update({'font.size': 14,'font.weight' : 'bold'})
-    plt.figure(figsize=(14,14), dpi = 300) 
+    plt.figure(figsize=(14,5), dpi = 300) 
     g = sns.scatterplot(x=x1, y=y[::-1], hue=hue, size = hue, palette='Spectral_r', sizes=(20, 300),legend="full")
-    plt.legend(fontsize=18,loc='center left', bbox_to_anchor=(0.98, 0.5))
+    plt.legend(fontsize=18,loc='center right', bbox_to_anchor=(1.23, 0.5))
     
     plt.xticks(rotation=90)
     plt.title('Datos Faltantes de Precipitación', fontsize = 26)

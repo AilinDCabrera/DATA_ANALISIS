@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pyhomogeneity as hg
 plt.style.use('default')
 
-def test_pettitt(lista_files):
+def test_pettitt(lista_files,var):
 
     '''Grafica los resultados test pettitt y devuelve los resultados de cada estacion'''
     
@@ -14,7 +14,7 @@ def test_pettitt(lista_files):
     df_resumen_pettitt = pd.DataFrame([])
     
     for i in np.arange(0,len(lista_files),1):
-        data = pd.read_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista_files[i])
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[i]}')  
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         print(len(data))
         try:
@@ -22,7 +22,11 @@ def test_pettitt(lista_files):
             b = fechas_corte[fechas_corte['nombre'] == lista_files[i]]['fini'].values[0]
         except:
             pass
-        data = data.groupby(data.index.strftime('%Y-%m')).sum()
+
+        if var == 'PRE':
+            data = data.groupby(data.index.strftime('%Y-%m')).sum()
+        elif var == 'TEM':
+            data = data.groupby(data.index.strftime('%Y-%m')).mean()
         data = data[data['Valor'] >= 0.1]
         time = data.index
         data = data['Valor'].values
