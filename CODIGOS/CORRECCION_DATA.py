@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
 
-'''Asigna nan a los valores anomalos para la fecha correspondiente, con esto recrea los archivos de data_completa'''
-
 def correccion(lista_files, rango_tiempo,var):
+    '''Asigna nan a los valores anomalos para la fecha correspondiente, con esto recrea los archivos de data_completa'''
     
     tiempo_ini = rango_tiempo[0]
     tiempo_fin  = rango_tiempo[1]

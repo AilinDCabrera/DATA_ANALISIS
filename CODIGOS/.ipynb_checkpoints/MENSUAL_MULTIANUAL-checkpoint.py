@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 def mm_estaciones(dataframe, numf,numi):
-    #cc = cm.Spectral_r(np.linspace(0,1,10))
-    #plt.rcParams.update({'font.size': 16,'font.weight' : 'bold'})
+    '''Grafica la precipitación mensual media multianual para cada estación por separado'''
+    
     cc = cm.Blues(np.linspace(0,1,numf+1-numi))
     cc = cc[1:]
     dataframe.T.sort_values(by = 'oct').T.plot.bar(figsize=(10,6), colormap = 'Spectral',zorder=10);
@@ -22,6 +22,8 @@ def mm_estaciones(dataframe, numf,numi):
 
     
 def mm_global(dataframe):
+    '''Grafica la precipitación mensual media multianual promedio de todas las estaciones.'''
+    
     plt.style.use('default')
     plt.figure(figsize=(10,5), dpi = 150)
     plt.bar(dataframe.index,dataframe.mean(axis=1), zorder = 10, color = '#19458E')
@@ -73,7 +75,6 @@ def mensual_multianual(lista_files, tipo, var):
             data = data.groupby(data.index.strftime('%b')).mean()
             
             data = data.rename(columns={'Valor': nombres_estaciones_plot[i]})
-            #dataframe = pd.merge(dataframe.reset_index(),data.reset_index(), left_index=False, right_index=False)
             
             data = data.reset_index()
             data['Fecha'] = pd.Categorical(data['Fecha'], categories=months, ordered=True)

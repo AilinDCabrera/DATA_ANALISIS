@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def cargar(lista_files,num,rango_tiempo,var):
+    '''Carga los datos de una estación de monitoreo dentro de un rango de tiempo específico y los renombra'''
 
     tiempo_ini = rango_tiempo[0]
     tiempo_fin  = rango_tiempo[1]
@@ -15,10 +16,13 @@ def cargar(lista_files,num,rango_tiempo,var):
     return(data)
 
 def split_years(dataframe):
+    '''Divide los datos por año'''
     dataframe['year'] = dataframe.index.year
     return ([dataframe[dataframe['year'] == y] for y in dataframe['year'].unique()])
 
 def listas(data,num):
+    '''Cuenta los valores faltantes por año en una estación específica.'''
+    
     dataframe                 = split_years(data.copy())
     numero_years              = len(data.index.year.unique())
     lista_year_faltante       = []
@@ -34,6 +38,7 @@ def listas(data,num):
 
 
 def lista_tamaño(valores):
+    '''Categoriza la cantidad de valores faltantes en rangos predefinidos.'''
     lista_tamaño = []
     for i in valores:
         if i >= 0 and i < 100:
@@ -48,6 +53,7 @@ def lista_tamaño(valores):
 
 
 def compilado(num,lista_files, rango_tiempo,var):
+    '''Calcula y resume los valores faltantes para cada estación'''
     data = cargar(lista_files,num,rango_tiempo,var)
     años,valores = listas(data,num)
     inten = lista_tamaño(valores)
@@ -56,6 +62,7 @@ def compilado(num,lista_files, rango_tiempo,var):
     return(años,inten)
 
 def datos_faltantes(lista_files,rango_tiempo,var):
+    '''Visualiza los años con datos faltantes para cada estación'''
     x    = []
     y    = []
     hue  = []

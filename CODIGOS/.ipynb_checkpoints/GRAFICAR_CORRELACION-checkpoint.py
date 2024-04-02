@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 def cargar2(lista,num,nombres_estaciones_plot,rango_tiempo,var):
+    '''Carga los archivos de la estaciones de monitoreo'''
 
     tiempo_ini = rango_tiempo[0]
     tiempo_fin  = rango_tiempo[1]
@@ -15,6 +16,8 @@ def cargar2(lista,num,nombres_estaciones_plot,rango_tiempo,var):
     return(data)
     
 def correlacion(lista_files,rango_tiempo,var):
+    '''Crea un mapa de calor (heatmap) que muestra la matriz de correlación entre las estaciones de monitoreo'''
+    
     numi = 0
     numf = len(lista_files)
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]

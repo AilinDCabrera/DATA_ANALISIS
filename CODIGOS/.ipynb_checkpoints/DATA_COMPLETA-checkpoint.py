@@ -4,6 +4,8 @@ import pandas as pd
 
 def completar_data(path_pre, lista_files, rango_tiempo, var):
 
+    '''Completa las fechas faltantes del conjunto de datos'''
+
     tiempo_ini = rango_tiempo[0]
     tiempo_fin  = rango_tiempo[1]
     

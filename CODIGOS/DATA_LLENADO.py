@@ -12,6 +12,7 @@ locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 
 
 def distance_matrix(x0, y0, x1, y1):
+    ''' Calcula las distancias euclidianas'''
     obs = np.vstack((x0, y0)).T
     interp = np.vstack((x1, y1)).T
 
@@ -22,6 +23,8 @@ def distance_matrix(x0, y0, x1, y1):
     
 
 def simple_idw(x, y, z, xi, yi):
+    '''Implementa una interpolación inversa ponderada (IDW) simple'''
+    
     dist = distance_matrix(x,y, xi,yi)
     
     weights = 1.0/dist #**2
@@ -32,6 +35,7 @@ def simple_idw(x, y, z, xi, yi):
     
 
 def crear_csv_llenado(df_valor, lista_files,tiempo,df_fechas,var):
+    '''Crea archivos CSV con  los datos interpolados para cada estación'''
     X = df_valor.values
     imputer = KNNImputer(n_neighbors=2, weights="distance")
     salida = imputer.fit_transform(X)
@@ -45,6 +49,8 @@ def crear_csv_llenado(df_valor, lista_files,tiempo,df_fechas,var):
 
 
 def llenado(path_pre, lista_files, rango_tiempo,var):
+
+    '''Esta función coordina todo el proceso de llenado de datos faltantes. '''
     
     Path(f'../{var}_SALIDAS/DATA_LLENADO/').mkdir(parents=True, exist_ok=True)   #Crear carpeta de salida de datos llenados
 
@@ -110,6 +116,8 @@ def llenado(path_pre, lista_files, rango_tiempo,var):
 
     fechas_iterar = df_valor.index
     suma = 0
+    
+    '''Calculo de la interpolación para los valores faltantes'''
     for row in np.arange(0,len(fechas_iterar),1):
         suma += 1; progress = int(suma/len(df_valor) * 100)
         sys.stdout.write('\r')

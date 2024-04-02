@@ -4,6 +4,8 @@ import os
 import sys
 
 if __name__ == "__main__":
+    '''Modulo principal para correr todos los códigos'''
+    
     from DATA_LLENADO import llenado
     from DATA_COMPLETA import completar_data
     from GRAFICAR_DATOS_FALTANTES import datos_faltantes
@@ -25,13 +27,13 @@ if __name__ == "__main__":
     
     llenado(file_data, lista_files,rango_tiempo,var)
     completar_data(file_data, lista_files,rango_tiempo,var)
-    datos_faltantes(lista_files,rango_tiempo)
+    datos_faltantes(lista_files,rango_tiempo,var)
     correlacion(lista_files,rango_tiempo,var)
     correccion(lista_files,rango_tiempo,var) 
     test_pettitt(lista_files,var)
     boxplots(lista_files,var) 
     mensual_multianual(lista_files,'estaciones',var)
     mensual_multianual(lista_files,'global',var)
-    curvas_doble_masa(lista_files)
-    bxp_mes(lista_files)
-    bxp_anio(lista_files)
+    curvas_doble_masa(lista_files) #Solo para precipitación
+    bxp_mes(lista_files) #Solo para precipitación
+    bxp_anio(lista_files) #Solo para precipitación

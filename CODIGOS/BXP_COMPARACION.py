@@ -6,7 +6,7 @@ import matplotlib.gridspec as gridspec
 
 
 def bxp_mes(lista_files):
-    ''' Grafica boxplots con datos mensuales comparando los datos llenados y los originales'''
+    ''' Grafica boxplots con datos mensuales comparando los datos llenados y los originales de cada estacion'''
     
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]

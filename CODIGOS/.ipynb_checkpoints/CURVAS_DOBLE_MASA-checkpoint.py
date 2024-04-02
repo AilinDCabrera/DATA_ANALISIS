@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 
 
 def curvas_doble_masa(lista_files):
+
+    '''Grafica la curva de doble masa de precipitación para cada estacion con la acumulación mensual '''
     
     plt.style.use('default')
     
