@@ -37,3 +37,5 @@ if __name__ == "__main__":
     curvas_doble_masa(lista_files) #Solo para precipitación
     bxp_mes(lista_files) #Solo para precipitación
     bxp_anio(lista_files) #Solo para precipitación
+
+
