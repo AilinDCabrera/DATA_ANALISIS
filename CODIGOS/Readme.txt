@@ -17,11 +17,14 @@
   * GRAFICAR_DATOS_FALTANTES.py:   Grafica los datos faltantes por estacion
   * MENSUAL_MULTIANUAL.py:     Calcula los valores mensuales medios multianuales
   * PRUEBA_HOMOGENEIDAD.py:    Evalua la homogeneidad de los datos utilizando el test pettitt 
+  * TENDENCIA.py:              Determina la tendencia de los datos de mnera mensual usando Mann Kendall Test
 
 - Preparación de datos
   * DATA_COMPLETA.py:   Completa las fechas faltantes. Asigna Nan a los días sin datos disponibles
   * DATA_LLENADO.py:    Completa datos faltantes con el método IDW
   * CORRECCION_DATA.py: Corrije los datos anomalos resultantes de DATA_COMPLETA.py
+  * LLENADO_V2.py:    Completa datos faltantes con Multilayer Perceptron Regressor y con IterativeImputer (esta es la ultima version del llenado de datos)
+  * OUTLIERS.py:      Elimina los outliers usando walsh_test
 
 - Datos resultantes de la preparación de datos (manejo de datos ejemplo)
   * DATA_ANALISIS/PRE_SALIDAS/DATA_COMPLETA   CSVs con todas las fechas del periodo a evaluar. Las fechas sin datos corresponden a Nan

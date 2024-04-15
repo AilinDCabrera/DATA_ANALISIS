@@ -8,7 +8,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
-from sklearn.ensemble import RandomForestRegressor
 
 def haversine(lat1, lon1, lat2, lon2):
     # Radio de la Tierra en kilómetros

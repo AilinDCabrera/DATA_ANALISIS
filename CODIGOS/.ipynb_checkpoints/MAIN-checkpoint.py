@@ -42,6 +42,6 @@ if __name__ == "__main__":
     grafico_c_doble_masa    = curvas_doble_masa(lista_files) #Solo para precipitación
     grafico_bxp_mes         = bxp_mes(lista_files) #Solo para precipitación
     grafico_bxp_anio        = bxp_anio(lista_files) #Solo para precipitación
-    grafico_tendencia       = mann_kendall(lista_files,var)
+    grafico_tendencia       = mann_kendall(lista_files,var) #Sen's slope analysis metodo alternativo
 
 
