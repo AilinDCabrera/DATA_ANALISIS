@@ -45,14 +45,14 @@ def crear_csv_llenado(df_valor, lista_files,tiempo,df_fechas,var):
         salida_unica = pd.DataFrame(salida[i]).rename({i:'Valor'},axis = 1)
         salida_unica.index = tiempo.index
         salida_unica = salida_unica.loc[df_fechas['FECHA_INICIAL'][i]:df_fechas['FECHA_FINAL'][i]]
-        salida_unica.to_csv(f'../{var}_SALIDAS/DATA_LLENADO/{lista_files[i]}')
+        salida_unica.to_csv(f'../{var}_SALIDAS/DATA_LLENADO_v1/{lista_files[i]}')
 
 
 def llenado(path_pre, lista_files, rango_tiempo,var):
 
     '''Esta función coordina todo el proceso de llenado de datos faltantes. '''
     
-    Path(f'../{var}_SALIDAS/DATA_LLENADO/').mkdir(parents=True, exist_ok=True)   #Crear carpeta de salida de datos llenados
+    Path(f'../{var}_SALIDAS/DATA_LLENADO_v1/').mkdir(parents=True, exist_ok=True)   #Crear carpeta de salida de datos llenados
 
     tiempo_ini = rango_tiempo[0]
     tiempo_fin  = rango_tiempo[1]

@@ -9,8 +9,8 @@ def boxplots(lista_files,var):
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]
     
-   #months = ["ene.", "feb.", "mar.", 'abr.', "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."]
-    months = ["ene", "feb", "mar", 'abr', "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    months = ["ene.", "feb.", "mar.", 'abr.', "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."]
+    #months = ["ene", "feb", "mar", 'abr', "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
     PROPS = {
         'boxprops':{'facecolor':'white', 'edgecolor':'black'},
         'medianprops':{'color':'black'},
@@ -20,6 +20,9 @@ def boxplots(lista_files,var):
     #plt.rcParams.update({'font.weight' : 'bold'})
     flierprops = dict(marker='.', markersize=3)
     plt.style.use('seaborn-v0_8-whitegrid')
+
+    figures = []
+    
     for k in np.arange(0,len(lista_files),1):
         #data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[k]}')  #CAMBIAR A ESTE CUANDO SE TENGA DATOS DE TEMPERATURA
         data = pd.read_csv(f'../PRE_SALIDAS/DATA_COMPLETA/{lista_files[k]}')
@@ -60,8 +63,11 @@ def boxplots(lista_files,var):
             plt.xticks(fontsize = 16, rotation=90)
             plt.xlabel('');
             #plt.savefig(folder_input + 'PRE_SALIDAS/IMG/boxplot' + str(k) + '.jpg', dpi = 300, bbox_inches = 'tight')
-            print(df_outliers.describe())
-            plt.show()
+            #print(df_outliers.describe())
+
+            fig = plt.gcf()
+            figures.append(fig)
+            plt.close(fig)
             
         elif var == 'TEM':
 
@@ -81,5 +87,8 @@ def boxplots(lista_files,var):
             plt.xlabel('');
             #print(df_outliers.describe())
             #plt.savefig('TEM_SALIDAS/IMG/Boxplot'+ str(k) +'.jpg', dpi = 300, bbox_inches = 'tight')
-            plt.show()
+            fig = plt.gcf()
+            figures.append(fig)
+            plt.close(fig)
 
+    return figures

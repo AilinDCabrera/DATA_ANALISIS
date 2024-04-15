@@ -16,6 +16,8 @@ def curvas_doble_masa(lista_files):
     numi = 0
     numf = len(lista_files)
     dataframe = pd.DataFrame([])
+
+    figuras = []
     for i in np.arange(numi,len(lista_files),1):
         
         data = pd.read_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
@@ -46,5 +48,11 @@ def curvas_doble_masa(lista_files):
         plt.yticks(fontsize = 14)
         plt.xlim(0,max([np.max(dataframe3[nombres_estaciones_plot[i]].values),np.max(dataframe2['PROMEDIO'].cumsum().values)]))
         plt.ylim(0,max([np.max(dataframe3[nombres_estaciones_plot[i]].values),np.max(dataframe2['PROMEDIO'].cumsum().values)]));
-        
+
+        fig = plt.gcf()
+        figuras.append(fig)
+
+        plt.close(fig)
         #plt.savefig(folder_input + 'PRE_SALIDAS/IMG/' + 'pre_acumulada' + str(i) +'.png', dpi = 300, bbox_inches="tight")
+
+    return figuras

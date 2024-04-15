@@ -44,3 +44,8 @@ def correlacion(lista_files,rango_tiempo,var):
     #plt.xlabel('Estaciones', fontsize = 12,fontweight='bold' )
     #plt.ylabel('Estaciones', fontsize = 12, fontweight='bold')
     g.set_yticklabels(labels=g.get_yticklabels(), va='center')
+
+    fig = plt.gcf()
+    plt.close(fig)
+
+    return fig

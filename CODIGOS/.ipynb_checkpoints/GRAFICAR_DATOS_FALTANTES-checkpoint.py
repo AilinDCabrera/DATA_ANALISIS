@@ -57,8 +57,8 @@ def compilado(num,lista_files, rango_tiempo,var):
     data = cargar(lista_files,num,rango_tiempo,var)
     años,valores = listas(data,num)
     inten = lista_tamaño(valores)
-    print(valores)
-    print(np.round((np.array(valores).sum()/(365*len(años)))*100,2), '%', lista_files[num])
+    #print(valores)
+    #print(np.round((np.array(valores).sum()/(365*len(años)))*100,2), '%', lista_files[num])
     return(años,inten)
 
 def datos_faltantes(lista_files,rango_tiempo,var):
@@ -109,4 +109,9 @@ def datos_faltantes(lista_files,rango_tiempo,var):
         
     plt.yticks(fontsize = 20)
     plt.xticks(fontsize = 20)
+
+    fig = plt.gcf()
+    plt.close(fig)
+
+    return(fig)
     #plt.savefig(folder_input + 'PRE_SALIDAS/IMG/' +'v-' + str(numi) + '-' + str(numf) + '.jpg', dpi = 300, bbox_inches="tight")

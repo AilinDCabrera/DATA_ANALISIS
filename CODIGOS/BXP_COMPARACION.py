@@ -48,6 +48,11 @@ def bxp_mes(lista_files):
                     mode='expand', borderaxespad=0, ncol=2);
     #plt.savefig(folder_input + 'PRE_SALIDAS/IMG/' + 'pre_mensual_llen-orig.png', dpi = 300, bbox_inches="tight")
 
+    fig = plt.gcf()
+    plt.close(fig)
+
+    return fig
+
 
 def bxp_anio(lista_files):
     ''' Grafica boxplots con datos anuales comparando los datos llenados y los originales'''
@@ -118,6 +123,10 @@ def bxp_anio(lista_files):
     plt.yticks(fontsize = 14)
     plt.xticks(fontsize = 14, rotation=90)
     plt.xlabel('');
-    print(df_outliers.describe())
+    #print(df_outliers.describe())
     #plt.savefig(folder_input + 'PRE_SALIDAS/IMG/' + 'pre_diaria_llen-orig.png', dpi = 300, bbox_inches="tight")
-    plt.show()
+
+    fig = plt.gcf()
+    plt.close(fig)
+
+    return fig

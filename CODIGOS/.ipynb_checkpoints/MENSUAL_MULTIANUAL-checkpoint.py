@@ -9,7 +9,7 @@ def mm_estaciones(dataframe, numf,numi):
     
     cc = cm.Blues(np.linspace(0,1,numf+1-numi))
     cc = cc[1:]
-    dataframe.T.sort_values(by = 'oct').T.plot.bar(figsize=(10,6), colormap = 'Spectral',zorder=10);
+    dataframe.T.sort_values(by = 'oct.').T.plot.bar(figsize=(10,6), colormap = 'Spectral',zorder=10);
     plt.xlabel('Mes',fontsize=15)
     plt.ylabel('mm/mes',fontsize=15)
     plt.title('Precipitación mensual media multianual', fontsize = 20)
@@ -19,6 +19,10 @@ def mm_estaciones(dataframe, numf,numi):
     plt.yticks(fontsize=15)
     #plt.legend(fontsize=14)
     #plt.savefig(folder_input + 'PRE_SALIDAS/IMG/' + 'g-' + str(numi) + '-' + str(numf) + '.png', dpi = 300, bbox_inches="tight")
+    fig = plt.gcf()
+    plt.close(fig)
+
+    return fig
 
     
 def mm_global(dataframe):
@@ -31,6 +35,11 @@ def mm_global(dataframe):
     plt.ylabel('mm/mes')
     plt.title('Precipitación mensual media multianual', fontsize = 12)
     plt.grid(axis = 'y', zorder = -1)
+
+    fig = plt.gcf()
+    plt.close(fig)
+
+    return fig
     
 
 def mensual_multianual(lista_files, tipo, var):
@@ -42,7 +51,8 @@ def mensual_multianual(lista_files, tipo, var):
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]
     
-    months = ["ene", "feb", "mar", 'abr', "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    #months = ["ene", "feb", "mar", 'abr', "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    months = ["ene.", "feb.", "mar.", 'abr.', "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."]
     plt.style.use('default')
     numi = 0
     numf = len(lista_files)
@@ -85,7 +95,9 @@ def mensual_multianual(lista_files, tipo, var):
             dataframe = pd.concat([dataframe, data], axis = 1)
             
     if tipo == 'estaciones':
-        mm_estaciones(dataframe, numf, numi)
+        figura = mm_estaciones(dataframe, numf, numi)
         
     elif tipo == 'global':
-        mm_global(dataframe)
+        figura = mm_global(dataframe)
+
+    return figura

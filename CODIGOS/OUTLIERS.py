@@ -15,7 +15,6 @@ def walsh_test(lista_files, var, alpha=0.05):
     """
 
     for estacion in lista_files:
-        print('estacion: ',estacion)
         data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{estacion}')
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
 
@@ -23,7 +22,6 @@ def walsh_test(lista_files, var, alpha=0.05):
         meses = list(data["mes"].unique())
         
         for mes in meses:
-            print('MES: ', mes)
             df_mes = data[data["mes"] == mes]
             df_mes = df_mes.dropna()
             data_mes = sorted(df_mes['Valor'])

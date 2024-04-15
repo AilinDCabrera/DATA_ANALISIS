@@ -12,11 +12,11 @@ def test_pettitt(lista_files,var):
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]
     
     df_resumen_pettitt = pd.DataFrame([])
-    
+
+    figures = []
     for i in np.arange(0,len(lista_files),1):
         data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[i]}')  
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
-        print(len(data))
         try:
             a = fechas_corte[fechas_corte['nombre'] == lista_files[i]]['ini'].values[0]
             b = fechas_corte[fechas_corte['nombre'] == lista_files[i]]['fini'].values[0]
@@ -47,7 +47,11 @@ def test_pettitt(lista_files,var):
         df_resumen_pettitt = pd.concat([df_resumen_pettitt,df_tem], axis = 0)
         plt.xticks(fontsize=16)
         plt.yticks(fontsize=16)
-        plt.show()
 
-    df_resumen_pettitt.columns = ['h','cp','p','U','mu1', 'mu2','Name']
-    return df_resumen_pettitt
+        fig = plt.gcf()
+        figures.append(fig)
+        plt.close(fig)
+        #plt.show()
+
+    #df_resumen_pettitt.columns = ['h','cp','p','U','mu1', 'mu2','Name']
+    return figures
