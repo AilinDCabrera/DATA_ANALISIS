@@ -9,8 +9,6 @@ def boxplots(lista_files,var):
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
     nombres_estaciones_plot = [x[:x.index('[') + len('[')-1] for x in nombres_estaciones_plot]
     
-    months = ["ene.", "feb.", "mar.", 'abr.', "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."]
-    #months = ["ene", "feb", "mar", 'abr', "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
     PROPS = {
         'boxprops':{'facecolor':'white', 'edgecolor':'black'},
         'medianprops':{'color':'black'},
@@ -24,12 +22,13 @@ def boxplots(lista_files,var):
     figures = []
     
     for k in np.arange(0,len(lista_files),1):
-        #data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[k]}')  #CAMBIAR A ESTE CUANDO SE TENGA DATOS DE TEMPERATURA
-        data = pd.read_csv(f'../PRE_SALIDAS/DATA_COMPLETA/{lista_files[k]}')
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{lista_files[k]}')  #CAMBIAR A ESTE CUANDO SE TENGA DATOS DE TEMPERATURA
+        #data = pd.read_csv(f'../PRE_SALIDAS/DATA_COMPLETA/{lista_files[k]}')
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         data = data.reset_index()
         dataframe = data.copy()
         dataframe['month'] = dataframe['Fecha'].dt.strftime('%b')
+        months = dataframe['month'].unique().tolist()
         
         if var == 'PRE':
             ######out

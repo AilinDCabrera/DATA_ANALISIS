@@ -16,18 +16,18 @@ def walsh_test(lista_files, var, alpha=0.05):
 
     for estacion in lista_files:
         data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{estacion}')
+        print(estacion)
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
 
         data["mes"] = data.index.strftime("%b")
         meses = list(data["mes"].unique())
-        
         for mes in meses:
             df_mes = data[data["mes"] == mes]
             df_mes = df_mes.dropna()
             data_mes = sorted(df_mes['Valor'])
             
             n = len(data_mes)
-                
+
             if n <= 60:
                 print("Sample size is too small. Walsh's test should not be applied.")
                 return []
@@ -57,10 +57,11 @@ def walsh_test(lista_files, var, alpha=0.05):
                 if data_mes[n+1-i] - (1 + a) * data_mes[n - i] + a * data_mes[n +1- k] <= 0:
                     if i < n-1:
                         thrs_outlier_large = data_mes[i + 1]
-                    elif i == n-1:
+                    elif i == n:
                         thrs_outlier_large = None
                     break
-            
+
+                    
             num_outlier_large = (len(df_mes[df_mes['Valor'] >= thrs_outlier_large])/n) * 100
             num_outlier_small = (len(df_mes[df_mes['Valor'] <= thrs_outlier_small])/n) * 100
             

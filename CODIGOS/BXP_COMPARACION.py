@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
 
-def bxp_mes(lista_files):
+def bxp_mes(lista_files,var):
+
     ''' Grafica boxplots con datos mensuales comparando los datos llenados y los originales de cada estacion'''
     
     nombres_estaciones_plot = [x[:-4] + '[' for x in lista_files]
@@ -15,7 +16,7 @@ def bxp_mes(lista_files):
     dataframe_llenado = pd.DataFrame([])
     numi = 0 
     for i in np.arange(numi,len(lista_files),1):
-        data = pd.read_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         data = data.groupby(data.index.strftime('%Y-%m')).sum()
         data.index = pd.to_datetime(data.index)
         data = data.rename(columns={'Valor': nombres_estaciones_plot[i]})
@@ -54,7 +55,7 @@ def bxp_mes(lista_files):
     return fig
 
 
-def bxp_anio(lista_files):
+def bxp_anio(lista_files,var):
     ''' Grafica boxplots con datos anuales comparando los datos llenados y los originales'''
     
     plt.style.use('default')
@@ -65,7 +66,7 @@ def bxp_anio(lista_files):
     numi = 0 
     
     for i in np.arange(numi,len(lista_files),1):
-        data = pd.read_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         data = data.where(data<150,150)
         #data = data.groupby(data.index.strftime('%Y-%m')).sum()
         data.index = pd.to_datetime(data.index)
@@ -77,7 +78,7 @@ def bxp_anio(lista_files):
     plt.style.use('default')
     dataframe_completo = pd.DataFrame([])
     for i in np.arange(numi,len(lista_files),1):
-        data = pd.read_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         data = data.where(data<150,150)
         #data = data.groupby(data.index.strftime('%Y-%m')).sum()
         data.index = pd.to_datetime(data.index)

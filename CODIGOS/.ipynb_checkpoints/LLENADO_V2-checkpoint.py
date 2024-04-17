@@ -49,14 +49,14 @@ def estaciones_mas_cercanas(lat_punto, lon_punto, estaciones):
 
 
 
-def llenar_datos(lista_files):
+def llenar_datos(lista_files,var):
     dataframes = []
     numi = 0
     coor_estaciones = {}
     
     for i in np.arange(numi,len(lista_files),1):  #llamar datos de las estaciones
-        data_est = pd.read_csv('../PRE_SALIDAS/DATA_COMPLETA/' + lista_files[i])
-        data_coor = pd.read_csv('../datos/' + lista_files[i])
+        data_est = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/' + lista_files[i])
+        data_coor = pd.read_csv(f'../{var}/' + lista_files[i])
         lat = data_coor["Latitud"][i]
         lon = data_coor["Longitud"][i]
         coor_estaciones[lista_files[i][:-4]] = (lat,lon)
@@ -130,7 +130,7 @@ def llenar_datos(lista_files):
         df_temporal = pd.DataFrame(data_llena_final[columna], columns=[columna])
         df_temporal.columns.values[0] = 'Valor'
         df_temporal.reset_index(inplace=True)
-        ruta = "../PRE_SALIDAS/DATA_LLENADO/"
+        ruta = f"../{var}_SALIDAS/DATA_LLENADO/"
         if not os.path.exists(ruta):
             os.makedirs(ruta)
         df_temporal.to_csv(f"{ruta}/{columna}.csv", index=False)

@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def curvas_doble_masa(lista_files):
+def curvas_doble_masa(lista_files,var):
 
     '''Grafica la curva de doble masa de precipitación para cada estacion con la acumulación mensual '''
     
@@ -20,7 +20,7 @@ def curvas_doble_masa(lista_files):
     figuras = []
     for i in np.arange(numi,len(lista_files),1):
         
-        data = pd.read_csv('../PRE_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_LLENADO/' + lista_files[i]); data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
         data = data.groupby(data.index.strftime('%Y-%m')).sum()
         data.index = pd.to_datetime(data.index)
         data = data.rename(columns={'Valor': nombres_estaciones_plot[i]})
