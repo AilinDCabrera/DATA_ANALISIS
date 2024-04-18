@@ -9,7 +9,7 @@
 - Datos de ejemplo:
   * DATA_ANALISIS/DATOS
 
-- Graficas
+- Graficas (No es necesario correrlos en orden)
   * BOXPLOT.py:  Grafica boxplots para todos los meses deacuerdo a los datos históricos. Precipitación: Total mes, Temperatura: promedio mes
   * BXP_COMPARACION.py:     Grafica boxplots con datos mensuales comparando los datos llenados y los originales
   * CURVAS_DOBLE_MASA.py:     Grafica la curva de doble masa para precipitación con la acumulación mensual
@@ -19,7 +19,7 @@
   * PRUEBA_HOMOGENEIDAD.py:    Evalua la homogeneidad de los datos utilizando el test pettitt 
   * TENDENCIA.py:              Determina la tendencia de los datos de mnera mensual usando Mann Kendall Test
 
-- Preparación de datos
+- Preparación de datos (Se deben correr en el orden especificado en main.py)
   * DESCOMPRIMIR_DATOS.py: Descomprime los datos de las estaciones y crear un csv para cada estación por separado
   * DATA_COMPLETA.py:      Completa las fechas faltantes. Asigna Nan a los días sin datos disponibles
   * DATA_LLENADO.py:       Completa datos faltantes con el método IDW
