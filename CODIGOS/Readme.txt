@@ -20,14 +20,16 @@
   * TENDENCIA.py:              Determina la tendencia de los datos de mnera mensual usando Mann Kendall Test
 
 - Preparación de datos
-  * DATA_COMPLETA.py:   Completa las fechas faltantes. Asigna Nan a los días sin datos disponibles
-  * DATA_LLENADO.py:    Completa datos faltantes con el método IDW
-  * CORRECCION_DATA.py: Corrije los datos anomalos resultantes de DATA_COMPLETA.py
-  * LLENADO_V2.py:    Completa datos faltantes con Multilayer Perceptron Regressor y con IterativeImputer (esta es la ultima version del llenado de datos)
-  * OUTLIERS.py:      Elimina los outliers usando walsh_test
+  * DESCOMPRIMIR_DATOS.py: Descomprime los datos de las estaciones y crear un csv para cada estación por separado
+  * DATA_COMPLETA.py:      Completa las fechas faltantes. Asigna Nan a los días sin datos disponibles
+  * DATA_LLENADO.py:       Completa datos faltantes con el método IDW
+  * CORRECCION_DATA.py:    Corrije los datos anomalos resultantes de DATA_COMPLETA.py
+  * LLENADO_V2.py:         Completa datos faltantes con Multilayer Perceptron Regressor y con IterativeImputer (esta es la ultima version del llenado de datos)
+  * OUTLIERS.py:           Elimina los outliers usando walsh_test
 
 - Datos resultantes de la preparación de datos (manejo de datos ejemplo)
-  * DATA_ANALISIS/PRE_SALIDAS/DATA_COMPLETA   CSVs con todas las fechas del periodo a evaluar. Las fechas sin datos corresponden a Nan
+  * DATA_ANALISIS/PRE_SALIDAS/DATA_COMPLETA_SIN_DEPURACION  CSVs con todas las fechas del periodo a evaluar.  Las fechas sin datos corresponden a Nan
+  * DATA_ANALISIS/PRE_SALIDAS/DATA_COMPLETA   CSVs con todas las fechas del periodo a evaluar y sin outliers, estos tienen Nan.
   * DATA_ANALISIS/PRE_SALIDAS/DATA_LLENADO    CSVs con todas las fechas del periodo a evaluar. Para los datos faltantes se utiliza el método IDW
 
 - Modulo principal

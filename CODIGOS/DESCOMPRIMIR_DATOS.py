@@ -20,19 +20,31 @@ def dividir_ideam(path_to_csv_org, path_to_csv,var):
     
     for k in np.arange(0,len(list_csv_org),1):
         data_total = pd.read_csv(path_to_csv_org + list_csv_org[k])
+        data_total.set_index('Fecha',inplace=True)
         nombres    = data_total['NombreEstacion'].unique()
+        data_total
 
         for i in np.arange(0,len(nombres),1):
-            data_filtrada = data_total[data_total['NombreEstacion'] == nombres[i]]
-            if var == 'TEM': #si la variable es temperatura, guarda CVSs distintos para la maxima y la mínima
+            data_filtrada = data_total[data_total['NombreEstacion'] == nombres[i]].copy()
+            if var == 'TEM': #si la variable es temperatura, y los maximos y minimos estann en e mismo csv guarda CVSs distintos para la maxima y la mínima
                 
-                data_filtrada_max = data_total[data_total['DescripcionSerie'] == 'Temperatura máxima diaria']
-                data_filtrada_min = data_total[data_total['DescripcionSerie'] == 'Temperatura mínima diaria']
+                data_filtrada_max = data_filtrada[data_filtrada['DescripcionSerie'] == 'Temperatura máxima diaria']
+                data_filtrada_min = data_filtrada[data_filtrada['DescripcionSerie'] == 'Temperatura mínima diaria']
+                data_filtrada_max = data_filtrada_max[~data_filtrada_max.index.duplicated()] #Eliminar fechas duplicadas
+                data_filtrada_min = data_filtrada_min[~data_filtrada_min.index.duplicated()] #Eliminar fechas duplicadas
                 
-                data_filtrada_max.to_csv(path_to_csv + nombres[i] + '_max.csv', index = False)
-                data_filtrada_min.to_csv(path_to_csv + nombres[i] + '_min.csv', index = False)
+                data_filtrada_max = data_filtrada_max.reset_index()
+                data_filtrada_min = data_filtrada_min.reset_index()
+
+                new_name_MAX = nombres[i].replace('[','MAX [')
+                new_name_MIN = nombres[i].replace('[','MIN [')
+                if len(data_filtrada_max)>0:
+                    data_filtrada_max.to_csv(path_to_csv + new_name_MAX + '.csv', index = False)
+                if len(data_filtrada_min)>0:
+                    data_filtrada_min.to_csv(path_to_csv + new_name_MIN + '.csv', index = False)
 
             else:
+                data_filtrada = data_filtrada.reset_index()
                 data_filtrada.to_csv(path_to_csv + nombres[i] + '.csv', index = False)
 
 

@@ -15,7 +15,7 @@ def walsh_test(lista_files, var, alpha=0.05):
     """
 
     for estacion in lista_files:
-        data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/{estacion}')
+        data = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA_SIN_DEPURAR/{estacion}')
         print(estacion)
         data = data[['Fecha', 'Valor']]; data = data.set_index('Fecha');data.index = pd.to_datetime(data.index)
 
@@ -42,9 +42,7 @@ def walsh_test(lista_files, var, alpha=0.05):
             # Step 1: Check if the i smallest points are outliers
             for i in range(n):
                 k = i + c
-                if data_mes[i] - (1 + a) * data_mes[i + 1] + a * data_mes[k] < 0:
-                    outliers_small.append(i)
-                elif data_mes[i] - (1 + a) * data_mes[i + 1] + a * data_mes[k] >= 0:
+                if data_mes[i] - (1 + a) * data_mes[i + 1] + a * data_mes[k] >= 0:
                     if i > 0:
                         thrs_outlier_small =  data_mes[i - 1]
                     else:
@@ -80,7 +78,7 @@ def walsh_test(lista_files, var, alpha=0.05):
     
         data.drop('mes',axis=1, inplace=True)
         
-        output_file = f'../{var}_SALIDAS/DATA_DEPURADA'
+        output_file = f'../{var}_SALIDAS/DATA_COMPLETA'
         if not os.path.exists(output_file):
             os.makedirs(output_file)
         

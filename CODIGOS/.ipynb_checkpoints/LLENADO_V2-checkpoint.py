@@ -46,10 +46,26 @@ def estaciones_mas_cercanas(lat_punto, lon_punto, estaciones):
     
     return estacion1, estacion2
 
+def llenado_individual(lista_files,var):
+    ruta = f"../{var}_SALIDAS/DATA_LLENADO/"
+    if not os.path.exists(ruta):
+        os.makedirs(ruta)
+    
+    for i in np.arange(0,len(lista_files),1):  #llamar datos de las estaciones
+        data_est = pd.read_csv(f'../{var}_SALIDAS/DATA_COMPLETA/' + lista_files[i]); data_est = data_est.set_index('Fecha')
+        data_est.index = pd.to_datetime(data_est.index)
+        
+        promedios_dia_anio = data_est.groupby(data_est.index.dayofyear)['Valor'].mean()
+        data_est['Valor'] = data_est.apply(lambda row: promedios_dia_anio[row.name.dayofyear] if pd.isna(row['Valor']) else row['Valor'], axis=1)
+    
+        data_est.reset_index(inplace=True)
+        data_est.to_csv(f"{ruta}/{lista_files[i]}", index=False)
 
+def llenar_datos(lista_files,var, individual=False):
 
-
-def llenar_datos(lista_files,var):
+    if individual:
+        llenado_individual(lista_files,var)
+        return
     dataframes = []
     numi = 0
     coor_estaciones = {}
@@ -134,3 +150,6 @@ def llenar_datos(lista_files,var):
         if not os.path.exists(ruta):
             os.makedirs(ruta)
         df_temporal.to_csv(f"{ruta}/{columna}.csv", index=False)
+
+
+

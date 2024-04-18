@@ -32,7 +32,7 @@ def test_pettitt(lista_files,var):
         data = data['Valor'].values
         result = hg.pettitt_test(data) 
         ff = pd.to_datetime(time.values)
-        print(ff[result.cp].strftime('%Y-%m'))
+        #print(ff[result.cp].strftime('%Y-%m'))  #Imprimir fecha del cambio
         plt.figure(figsize=(10,5),dpi = 150)
         plt.plot(ff,data, color = 'b')
         plt.plot(ff[0:result.cp],[result.avg[0]]*result.cp, linestyle = '--', color = 'r', label = ('µ1 = ' + str(np.round(result.avg[0],2))))
